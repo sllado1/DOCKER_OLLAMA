@@ -1,0 +1,36 @@
+services:
+  ollama:
+    container_name: ollama_compose
+    build:
+      context: .
+      dockerfile: /ollama/Dockerfile
+    # En cas que vulguessim que sempre baixés la última versió
+    #pull_policy: always
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    environment:
+      - OLLAMA_NUM_PARALLEL=4
+      - OLLAMA_MAX_LOADED_MODELS=2
+      - OLLAMA_MODELS=/usr/share/ollama/.ollama/models
+    healthcheck:
+      test: "ollama --version && ollama ps || exit 1"
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    volumes:
+      - ollama-models:/usr/share/ollama/.ollama/models
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    ports:
+      - "3000:8080"
+    volumes:
+      - open-webui:/app/backend/data
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+volumes:
+  ollama-models:
+  open-webui:
