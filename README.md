@@ -27,7 +27,7 @@ Aquest servei llança un servidor Ollama per gestionar models d'IA. Inclou perso
 - **Configuració destacada:**
   - `Dockerfile`: Personalitza la imatge base afegint un script d'inicialització.
   - `entrypoint.sh`: Executa el servidor, espera que estigui actiu, i descarrega models predeterminats.
-  - **Volum**: `ollama-models:/usr/share/ollama/.ollama/models`
+  - **Volum**: `ollama-models:/usr/share/ollama/.ollama/models`  Els volumns s'utilitzen perquè les dades siguin persistents.
 
 - **Models descarregats automàticament:**
   - Per defecte, el model `tinyllama` es carrega automàticament. Altres models es poden afegir descomentant línies a l'script `entrypoint.sh`.
